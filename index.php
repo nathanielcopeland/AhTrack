@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("includes/databse.php");
+include("includes/database.php");
 
 
 ?>
@@ -8,34 +8,22 @@ include("includes/databse.php");
 <html>
   <?php
   include("includes/head.php");
+  include("includes/navigation.php");
   ?>
   <body>
   
   
-
-
   
-  <form method="post" action="search.php">
-    <input id="searchbox" name="searchbox" placeholder="Search.." >
-  </form>
-  
-<?php
-include("search.php");
-?>
-  
-      <p>hey</p>
-    <br/>
-<!--
+      <p>Nothing on homepage yet</p>
     <br/>
 
-    <br/>
-    <br/>
   <?php
+    
   
-//    
+ 
     
   ?>
--->
+
     
     
     </body>

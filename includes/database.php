@@ -11,6 +11,5 @@ if(!$connection){
   echo "connection error";
 }
 else{
-
 }
 ?>
