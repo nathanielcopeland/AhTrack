@@ -4,6 +4,10 @@ This project will use the World of Warcraft api to track items placed onto the w
 
 The website can be found at https://www.natcopeland.com/ahtrack/
 
+test account credentials:
+username: user
+password: password
+
 ``
 PHP ``
 ``
