@@ -55,7 +55,7 @@ $query = 'INSERT INTO tracked_items (item_id,user_id,min_value,max_value)
   $min_value = $_POST[minG] . $_POST[minS] . $_POST[minC];
   echo $min_value;
   
- if($max_value == NULL){
+ if($max_value == NULL || $max_value == '000'){
   $max = null;
   echo 'null';
 } else{
@@ -63,7 +63,7 @@ $query = 'INSERT INTO tracked_items (item_id,user_id,min_value,max_value)
    echo '$max';
  }
   
-   if($min_value == NULL){
+   if($min_value == NULL || $min_value == '000'){
   $min = null;
      echo 'null';
 } else{
