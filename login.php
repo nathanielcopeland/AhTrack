@@ -11,7 +11,6 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-echo "hey";  
   
  $query = "SELECT `user_id`, `user_rank`, `password` FROM `user` WHERE username = '$username'";
   
@@ -27,7 +26,7 @@ echo "hey";
       $_SESSION['user_rank'] = $row['user_rank'];
       header('Location: index.php');
     } else{
-      echo 'invalid password';
+      
     }
   }
   

@@ -88,6 +88,6 @@ if($_POST['max'] == NULL){
 print_r($_POST);
     
   
-//header("location:/ahtrack/search.php");  
+header("location:/ahtrack/search.php");  
   }
 ?>

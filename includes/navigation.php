@@ -1,11 +1,13 @@
 <?php
 
 $link4 = login;
-$title4 = login;
+
 
 if( $_SESSION['username'] !== NULL){
   $title4 = $_SESSION['username'];
   $link4 = logout;
+} else {
+  $link4 = login;
 }
 
 ?>
@@ -17,6 +19,13 @@ if( $_SESSION['username'] !== NULL){
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <div class="" id="navbarTogglerDemo01">
+        <ul class="navbar-nav ">
+          <li class="nav-item">
+            <a class="nav-link"> <?php echo $title4?> <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>  
+  </div>
   
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
     <ul class="navbar-nav ml-auto">
@@ -36,7 +45,7 @@ if( $_SESSION['username'] !== NULL){
     <div class="collapse navbar-collapse " id="navbarTogglerDemo01">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="<?php echo $link4; ?>.php"> <?php echo "Logout"?> <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="<?php echo $link4; ?>.php"> <?php echo $link4?> <span class="sr-only">(current)</span></a>
           </li>
         </ul>  
   </div>
