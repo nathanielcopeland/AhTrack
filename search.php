@@ -14,11 +14,16 @@ $currentsql = $connection->query($currentquery);
 if($_SERVER["REQUEST_METHOD"]=="POST"){
   
   
-  
-    $query = "SELECT item_id, name FROM item_cache where name like '".$_POST['searchbox']."%'";
-
-    $sql = $connection->query($query);
     
+    $string = $_POST['searchbox'] . '%';
+    echo $string;
+    $query = "SELECT item_id, name FROM item_cache where name like ?";
+    $statement = $connection->prepare($query);
+    $statement->bind_param("s",$string);
+    $statement->execute(); 
+    
+    $statement->bind_result($item_id, $name);
+   
 
   }
 
@@ -57,16 +62,19 @@ include("includes/navigation.php");
       echo "<div class='col-md-12 text-center'><h1> Search for some items </h1></div>";
       echo "</div>"; 
       }
+      
       ?>
       
     <?php
-    while($items = mysqli_fetch_array($sql)){
+      if($_SERVER["REQUEST_METHOD"]=="POST"){
+    while ($statement->fetch()) {
       echo "<form method='post' action='trackitem.php'>";
       echo "<div class='row'>";
       
-      echo "<div class='col-md-4'><a id='itemname' name='itemname' href='//www.wowhead.com/item=".$items['item_id']."' class=' wow-item' >".$items['name']."</a></div>";
-      echo "<input type='hidden' name='item_id' id='item_id' value=".$items['item_id'].">";
+      echo "<div class='col-md-4'><a id='itemname' name='itemname' href='//www.wowhead.com/item=".$item_id."' class=' wow-item' >".$name."</a></div>";
+      echo "<input type='hidden' name='item_id' id='item_id' value=".$item_id.">";
       echo "<input type='hidden' name='user_id' id='user_id' value=".$_SESSION['user_id'].">";
+      
       echo "<div class='col-md-3'>
             <div class='row'>
             <div class='col-md-4 whitebackground'><input style='width:75%;' class='hide-input text-right' maxlength='7' id='minG' name='minG'><a class='gold'> g</a>
@@ -82,7 +90,8 @@ include("includes/navigation.php");
       echo "<div class='col-md-1'><button class='deletebutton'><i class='fas fa-check' style='line-height:25px;'></i></button></div> ";
       echo "</form>";
       echo "</div>";
-    }
+      
+     }}
         
     ?>
       </div>
