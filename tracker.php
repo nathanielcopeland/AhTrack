@@ -1,13 +1,13 @@
 <?php
 session_start();
 include("includes/database.php");
-
-$query = "select tracked_items.item_id, tracked_items.max_value, tracked_items.min_value, auctionhouse.bid, auctionhouse.buyout, auctionhouse.quantity,                       auctionhouse.ownerRealm, auctionhouse.timeLeft, auctionhouse.owner, auctionhouse.timeLeft, item_cache.itemLevel, count(*) as count
+$region = "us_";
+$server = $region . $_SESSION["server"];
+$query = "select tracked_items.item_id, tracked_items.max_value, tracked_items.min_value, ".$server.".bid, ".$server.".buyout, ".$server.".quantity,                       ".$server.".ownerRealm, ".$server.".timeLeft, ".$server.".owner, ".$server.".timeLeft, item_cache.itemLevel, count(*) as count
           from tracked_items 
           inner join item_cache on tracked_items.item_id = item_cache.item_id
           inner join 
-          auctionhouse on tracked_items.item_id = auctionhouse.item where tracked_items.user_id = ".$_SESSION['user_id']." and auctionhouse.buyout < tracked_items.max_value or tracked_items.max_value is null and tracked_items.user_id = ".$_SESSION['user_id']." group by tracked_items.item_id, auctionhouse.buyout, auctionhouse.owner, auctionhouse.bid, auctionhouse.quantity order by tracked_items.item_id desc, auctionhouse.buyout asc";
-
+          ".$server." on tracked_items.item_id = ".$server.".item where tracked_items.user_id = ".$_SESSION['user_id']." and ".$server.".buyout < tracked_items.max_value or tracked_items.max_value is null and tracked_items.user_id = ".$_SESSION['user_id']." group by tracked_items.item_id, ".$server.".buyout, ".$server.".owner, ".$server.".bid, ".$server.".quantity order by tracked_items.item_id desc, ".$server.".buyout asc";
 $sql = $connection->query($query);
 
 $query2 = "select tracked_items.item_id, item_cache.name from tracked_items

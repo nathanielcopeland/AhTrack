@@ -12,7 +12,7 @@ $username = $_POST["username"];
 $password = $_POST["password"];
 
   
- $query = "SELECT `user_id`, `user_rank`, `password` FROM `user` WHERE username = '$username'";
+ $query = "SELECT `user_id`, `user_rank`, `password`, `server` FROM `user` WHERE username = '$username'";
   
  $sql = $connection->query($query);
   
@@ -24,6 +24,8 @@ $password = $_POST["password"];
       $_SESSION['username'] = $username;
       $_SESSION['user_id'] = $row['user_id'];
       $_SESSION['user_rank'] = $row['user_rank'];
+      $_SESSION['server'] = $row['server'];
+      echo $row['server'];
       header('Location: index.php');
     } else{
       
