@@ -2,6 +2,11 @@
 session_start();
 include("includes/database.php");
 
+include("PHPMailer/src");
+use PHPMailer\PHPMailer\PHPmailer;
+require("PHPMailer/src/PHPMailer.php");
+require("PHPMailer/src/SMTP.php");
+
 $query2 = "select * from serverlist";
 $sql2 = $connection->query($query2);
 
@@ -38,18 +43,21 @@ if($password1 !== $password2){
 if(count($errors) == 0){
     //hash the password
     $password = password_hash($password1,PASSWORD_DEFAULT);  
-
+    $token = 'qwertyuiopasdfghjklzxcvbnmQEWRTYUIOPASDFGHJKLZXCVBNM1234567890!$/()*';
+    $token = str_shuffle($token);
+    $token = substr($token, 0, 10);
+  
 $server = $_POST['server'];
 
-$query = 'INSERT INTO user (username,email,password,user_rank,server)
+$query = 'INSERT INTO user (username,email,password,user_rank,server,email_validated,token)
           VALUES
-          (?,?,?,1,?)';
+          (?,?,?,1,?,0,?)';
   
 
   $statement = $connection->prepare($query);
   
 
-  $statement->bind_param("ssss",$username,$email,$password,$server);
+  $statement->bind_param("sssss",$username,$email,$password,$server,$token);
 
   
   $statement->execute();
@@ -67,7 +75,38 @@ $query = 'INSERT INTO user (username,email,password,user_rank,server)
     $query = "insert into settings (user_id) VALUES ($value)";
 
     $result = $connection->query($query);
-    header('Location: login.php');
+    
+    $mail = new PHPMailer();
+    $mail->isSMTP(); 
+    $mail->Host        = "smtp.gmail.com"; // Sets SMTP server
+    $mail->SMTPDebug   = 2; // 2 to enable SMTP debug information
+    $mail->SMTPAuth = true; 
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
+    $mail->Username = 'nathanielcopeland93@gmail.com';
+    $mail->Password = 'kwerty321';
+    $mail->From        = 'nathanielcopeland93@gmail.com';
+    $Mail->FromName    = 'AHTrack';
+    $mail->Priority    = 1;
+    $Mail->CharSet     = 'UTF-8';
+    $Mail->Encoding    = '8bit';
+    $mail->addAddress($email);
+    $mail->Subject = "Please Verify email";
+    $mail->isHTML(true);
+    $mail->Body = "Click on the link below to verify email address <br><br>
+    <a href='localhost/ahtrack/confirm.php?email=$email&token=$token'>Click here to verify</a>
+      ";
+    
+    $mail->Send();
+      
+//    if(!$mail->send()) {
+//    echo 'Message could not be sent.';
+//    echo 'Mailer Error: ' . $mail->ErrorInfo;
+//} else {
+//    echo 'Message has been sent';
+//}
+    
+    //header('Location: login.php');
 } else {
     
         $message = $connection->error;
